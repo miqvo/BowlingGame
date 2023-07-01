@@ -23,7 +23,7 @@ namespace Bowling
             _isLastFrame = isLastFrame;
         }
 
-        public void Roll()
+        public int Roll()
         {
             Random rnd = new();
             int pinsRemaining = 10;
@@ -33,10 +33,13 @@ namespace Bowling
                 pinsRemaining = 10 - _score;
 
 
+            //int knockedPins = 10;
             int knockedPins = rnd.Next(0, pinsRemaining + 1);
 
             _rolls[_rollIndex++] = knockedPins;
             _score += knockedPins;
+
+            return knockedPins;
 
         }
 
@@ -60,9 +63,49 @@ namespace Bowling
             return IsStrike() || _rollIndex >= 2;
         }
 
+        public int GetTotalScore(List<Frame> frames)
+        {
+            return _score + GetBonus(frames);
+        }
+
         public int GetScore()
         {
             return _score;
+        }
+
+        private int GetBonus(List<Frame> frames)
+        {
+            if (!frames.Any())
+            {
+                return 0; // No bonus available
+            }
+
+            if (IsStrike())
+            {
+                if (!frames[0].IsDone())
+                {
+                    return 0; // No bonus available yet
+                }
+
+                if (frames[0].IsStrike())
+                {
+                    if (frames.Count < 2)
+                    {
+                        return 0; // No bonus available yet
+                    }
+
+                    return 10 + frames[1]._rolls[0];
+                }
+
+                return frames[0].GetScore();
+            }
+
+            if (IsSpare())
+            {
+                return frames[0]._rolls[0];
+            }
+
+            return 0;
         }
     }
 }

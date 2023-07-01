@@ -27,9 +27,9 @@ namespace Bowling
                 _frames.Add(frame);
             }
 
-            frame.Roll();
+            int pinsKnocked = frame.Roll();
 
-            Console.WriteLine($"Frame: {CurrentFrame} | Roll: {frame.CurrentRoll} | Knocked Pins: {frame.GetScore()} | Total Score: {TotalScore()}");
+            Console.WriteLine($"Frame: {CurrentFrame} | Roll: {frame.CurrentRoll} | Knocked Pins: {pinsKnocked} | Total Score: {TotalScore()}");
         }
 
         public bool IsDone()
@@ -39,7 +39,20 @@ namespace Bowling
 
         public int TotalScore()
         {
-            return _frames.Sum(x => x.GetScore());
+            int score = 0;
+
+            if (_frames.Count == 1)
+            {
+                return _frames[0].GetScore();
+            }
+            for (int i = 0; i < _frames.Count; i++)
+            {
+                // Check if there are enough remaining frames to calculate the score
+
+                score += _frames[i].GetTotalScore(_frames.GetRange(i + 1, _frames.Count - i - 1));
+
+            }
+            return score;
         }
     }
 }
