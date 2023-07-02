@@ -23,7 +23,7 @@ namespace Bowling
                     }
                 }
 
-                BowlingGame game = new BowlingGame();
+                BowlingGame game = new();
 
                 Console.WriteLine("Game started. Press any key to roll the ball.");
 
@@ -40,6 +40,8 @@ namespace Bowling
                     game.Play();
 
                 }
+
+                Console.WriteLine($"Game ended with a total score of: {game.TotalScore()}");
             }
         }
     }

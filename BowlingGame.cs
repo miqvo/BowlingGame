@@ -23,7 +23,7 @@ namespace Bowling
 
             if (frame.IsDone())
             {
-                frame = new Frame(_frames.Count == 10);
+                frame = new Frame(_frames.Count == 9);
                 _frames.Add(frame);
             }
 
@@ -34,7 +34,7 @@ namespace Bowling
 
         public bool IsDone()
         {
-            return _frames.Count == 10 && _frames.Last().IsDone();
+            return CurrentFrame == 10 && _frames[9].IsDone();
         }
 
         public int TotalScore()
@@ -43,15 +43,21 @@ namespace Bowling
 
             if (_frames.Count == 1)
             {
-                return _frames[0].GetScore();
+                return _frames[0].GetScoreWithoutBonus();
             }
+
+
             for (int i = 0; i < _frames.Count; i++)
             {
-                // Check if there are enough remaining frames to calculate the score
-
                 score += _frames[i].GetTotalScore(_frames.GetRange(i + 1, _frames.Count - i - 1));
-
             }
+
+
+            //if (_frames.Count == 10 && _frames.Last().IsDone())
+            //{
+            //    score += _frames[9].GetScoreWithoutBonus();
+            //}
+
             return score;
         }
     }
