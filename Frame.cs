@@ -20,7 +20,7 @@
             Random rnd = new();
             int pinsRemaining = 10 - _rolls.Sum();
 
-            // 10th roll with 2 strikes gives an additional roll
+            // 10th roll with a strike gives an additional roll
             if (_isLastFrame && _rollIndex == 2)
             {
                 pinsRemaining = 10;
