@@ -1,19 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Bowling
+﻿namespace Bowling
 {
     public class Frame
     {
-        private int[] _rolls = new int[3];
+        private readonly int[] _rolls = new int[3];
         private int _rollIndex = 0;
 
-        private bool _isLastFrame = false;
-
-        //private int _score = 0;
+        private readonly bool _isLastFrame = false;
 
         public int CurrentRoll => _rollIndex;
 
@@ -28,21 +20,17 @@ namespace Bowling
             Random rnd = new();
             int pinsRemaining = 10 - _rolls.Sum();
 
-
             // 10th roll with 2 strikes gives an additional roll
-            if(_isLastFrame && _rollIndex == 2)
+            if (_isLastFrame && _rollIndex == 2)
             {
                 pinsRemaining = 10;
             }
 
-
-            int knockedPins = 10;
-            //int knockedPins = rnd.Next(0, pinsRemaining + 1);
+            int knockedPins = rnd.Next(0, pinsRemaining + 1);
 
             _rolls[_rollIndex++] = knockedPins;
 
             return knockedPins;
-
         }
 
         public bool IsStrike()
@@ -57,9 +45,10 @@ namespace Bowling
 
         public bool IsDone()
         {
+            // 10th frame case
             if (_isLastFrame)
             {
-                if(IsStrike() || IsSpare())
+                if (IsStrike() || IsSpare())
                 {
                     return _rollIndex == 3;
                 }
@@ -67,6 +56,7 @@ namespace Bowling
                 return _rollIndex == 2;
             }
 
+            // 1st to 9th frame case
             return IsStrike() || _rollIndex >= 2;
         }
 
@@ -87,27 +77,6 @@ namespace Bowling
             {
                 return 0; // No bonus available
             }
-
-            //if (frames.Last()._isLastFrame)
-            //{
-            //    if(IsStrike())
-            //    {
-            //        if (_rollIndex < 3)
-            //            return 0;
-
-            //        return _rolls[1] + _rolls[2];
-            //    }
-
-            //    if (IsSpare())
-            //    {
-            //        if (_rollIndex < 3)
-            //            return 0;
-
-            //        return _rolls[2];
-            //    }
-
-            //    return 0;
-            //}
 
             if (IsStrike())
             {
@@ -141,7 +110,6 @@ namespace Bowling
             {
                 return frames[0]._rolls[0];
             }
-
 
 
             return 0;

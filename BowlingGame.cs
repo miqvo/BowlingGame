@@ -53,11 +53,6 @@ namespace Bowling
             }
 
 
-            //if (_frames.Count == 10 && _frames.Last().IsDone())
-            //{
-            //    score += _frames[9].GetScoreWithoutBonus();
-            //}
-
             return score;
         }
     }
